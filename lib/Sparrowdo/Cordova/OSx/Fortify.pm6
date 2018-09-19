@@ -21,11 +21,13 @@ our sub tasks (%args) {
     
     bash "npm install --silent cordova";
     
-    bash "pod setup 1>/dev/null", %(
-      envvars => %(
-        LANG => "en_US.UTF-8"
-      )
-    );
+    unless %args<skip-pod-setup> {
+      bash "pod setup 1>/dev/null", %(
+        envvars => %(
+          LANG => "en_US.UTF-8"
+        )
+      );
+    }
     
     bash "npm run --silent ionic -- cordova platform add ios";
     
