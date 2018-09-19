@@ -9,6 +9,8 @@ use Sparrowdo::Core::DSL::Bash;
 
 our sub tasks (%args) {
 
+    my $build-id = %args<project> ~ ".build";
+
     directory "www";
     
     bash "npm install --silent";
@@ -24,9 +26,6 @@ our sub tasks (%args) {
     );
     
     bash "npm run --silent ionic -- cordova platform add ios";
-
-
-    my $build-id = %args<project> ~ ".build";
     
     bash "sourceanalyzer -b $build-id -clean",%(
       description => "sourceanalyzer clean",
@@ -34,13 +33,13 @@ our sub tasks (%args) {
       cwd => "platforms/ios"
     );
     
-    bash "sourceanalyzer \@excludes.txt -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/Debug-iphoneos/include  -project 'Mobile CMMS.xcodeproj'  -configuration Debug -quiet clean" , %(
+    bash "sourceanalyzer \@excludes.txt -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{%args<configuration>}-iphoneos/include  -project '{%args<project>}'  -configuration {%args<configuration>} -quiet clean" , %(
       description => "sourceanalyzer xcodebuild clean",
       debug => 1,
       cwd => "platforms/ios"
     );
     
-    bash "sourceanalyzer -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/Debug-iphoneos/include  -project 'Mobile CMMS.xcodeproj'  -configuration Debug", %(
+    bash "sourceanalyzer -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{%args<configuration>}-iphoneos/include  -project '{%args<project>}'  -configuration {%args<configuration>}", %(
       description => "sourceanalyzer build",
       debug => 1,
       cwd => "platforms/ios"
