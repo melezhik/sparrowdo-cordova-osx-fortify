@@ -7,13 +7,9 @@ Sparrowdo module to run HP Fortify scan against Cordova/OSx project.
     $ zef install Sparrowdo::Cordova::OSx::Fortify
 
     $ sparrowdo --local_mode --no_sudo --cwd=/path/to/cordova/project \
-    --module_run=Cordova::OSx::Fortify@project=App.xcodeproj,scan-file=out.fpr
+    --module_run=Cordova::OSx::Fortify@scan-file=out.fpr,build-id=test
 
 # Parameters
-
-## project
-
-Name of xcode project
 
 ## scan-file
 
@@ -21,15 +17,15 @@ Name of generated scan file, the file will be created at the project root direct
 
 ## configuration
 
-Xcode build configuration. Default value is `Debug`
+Xcode build configuration. Default value is `Debug`.
 
 ## skip-pod-setup
 
-Don't run `pod setup` if set
+Don't run `pod setup` if set.
 
 ## build-id
 
-Sets HP Fortify build ID. Optional
+Sets HP Fortify build ID. Default value is `test`
 
 # Author
 

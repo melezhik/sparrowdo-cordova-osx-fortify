@@ -10,7 +10,6 @@ use Sparrowdo::Core::DSL::Bash;
 our sub tasks (%args) {
 
     my $build-id = %args<build-id> || "test";
-    my $project = %args<project>;
     my $xcode-configuration = %args<configuration> || 'Debug';
     my $scan-file = %args<scan-file> || 'out.fpr';
 
@@ -41,13 +40,13 @@ our sub tasks (%args) {
 
     file "platforms/ios/excludes.txt", %( source => ( slurp %?RESOURCES<excludes.txt> ) );
   
-    bash "sourceanalyzer \@excludes.txt -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{$xcode-configuration}-iphoneos/include  -project {%args<project>}  -configuration $xcode-configuration -quiet clean" , %(
+    bash "sourceanalyzer \@excludes.txt -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{$xcode-configuration}-iphoneos/include -configuration $xcode-configuration -quiet clean" , %(
       description => "sourceanalyzer xcodebuild clean",
       debug => 1,
       cwd => "platforms/ios"
     );
     
-    bash "sourceanalyzer -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{$xcode-configuration}-iphoneos/include  -project {%args<project>}  -configuration $xcode-configuration", %(
+    bash "sourceanalyzer -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{$xcode-configuration}-iphoneos/include -configuration $xcode-configuration", %(
       description => "sourceanalyzer build",
       debug => 1,
       cwd => "platforms/ios"
