@@ -3,7 +3,7 @@ use v6;
 unit module Sparrowdo::Cordova::OSx::Fortify:ver<0.0.1>;
 
 use Sparrowdo;
-use Sparrowdo::Core::DSL::File;
+use Sparrowdo::Core::DSL::Template;
 use Sparrowdo::Core::DSL::Directory;
 use Sparrowdo::Core::DSL::Bash;
 
@@ -38,7 +38,7 @@ our sub tasks (%args) {
     );
     
 
-    file "platforms/ios/excludes.txt", %( source => ( slurp %?RESOURCES<excludes.txt> ) );
+    template "platforms/ios/excludes.txt", %( source => ( slurp %?RESOURCES<excludes.txt> ) );
   
     bash "sourceanalyzer \@excludes.txt -b $build-id xcodebuild CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO HEADER_SEARCH_PATHS=./CordovaLib/build/{$xcode-configuration}-iphoneos/include -configuration $xcode-configuration -quiet clean" , %(
       description => "sourceanalyzer xcodebuild clean",
