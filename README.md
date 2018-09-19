@@ -23,6 +23,14 @@ Name of generated scan file, the file will be created at the project root direct
 
 Xcode build configuration. Default value is `Debug`
 
+## skip-pod-setup
+
+Don't run `pod setup` if set
+
+## build-id
+
+Sets HP Fortify build ID. Optional
+
 # Author
 
 Alexey Melezhik

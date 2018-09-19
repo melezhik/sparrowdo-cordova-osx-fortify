@@ -9,7 +9,7 @@ use Sparrowdo::Core::DSL::Bash;
 
 our sub tasks (%args) {
 
-    my $build-id = %args<project> ~ ".build";
+    my $build-id = %args<build-id> || %args<project> ~ ".build";
     my $xcode-configuration = %args<configuration> || 'Debug';
     my $scan-file = %args<scan-file> || 'out.fpr';
 
